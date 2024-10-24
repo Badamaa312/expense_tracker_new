@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const router = useRouter();
