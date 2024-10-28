@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function SignUpPage() {
   const [customer, setCustomer] = useState({});
 
-  const BACKEND_ENDPOINT = "http://localhost:5555/sign-up";
+  const BACKEND_ENDPOINT = "http://localhost:1234/sign-up";
 
   const handleOnSubmit = async (event) => {
     console.log(customer);
@@ -33,7 +33,7 @@ export default function SignUpPage() {
       email: "",
       password: "",
     });
-    document.getElementById("my_modal_1").close();
+    // document.getElementById("my_modal_1").close();
   };
 
   // input ni name bolon value-r tanih

@@ -17,7 +17,6 @@ export const AddRecord = () => {
         className="h-8 w-[99px] bg-[#0166FF] flex items-center justify-center rounded-[20px] gap-1"
         onClick={() => document.getElementById("my_modal_1").showModal()}
       >
-        {" "}
         <WhitePlusIcon />
         <p className="text-[14px] leading-4 font-[400] text-[white]">Record</p>
       </button>

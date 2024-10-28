@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { WhitePlusIcon } from "../svg/WhitePlus";
+import { CloseIcon } from "../svg/Close";
 
 export const AddButton = () => {
   const [isClicked, setIsClicked] = useState(true);
@@ -17,7 +18,6 @@ export const AddButton = () => {
         className="h-8 w-full bg-[#0166FF] flex items-center justify-center rounded-[20px] gap-1"
         onClick={() => document.getElementById("my_modal_1").showModal()}
       >
-        {" "}
         <WhitePlusIcon />
         <p className="text-[14px] leading-4 font-[400] text-[white] ">Add</p>
       </button>
@@ -29,7 +29,9 @@ export const AddButton = () => {
               method="dialog"
               className="flex justify-between items-center "
             >
-              <button className=" top-1">✕</button>
+              <button className=" top-1">
+                <CloseIcon />
+              </button>
             </form>
           </div>
           <div className="flex justify-center w-[792px]">
