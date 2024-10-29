@@ -17,12 +17,12 @@ const Home = () => {
   }, [router]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="flex w-full h-screen">
+      <div className="w-1/2 h-full flex flex-col items-center justify-center pr-[126px">
         <h1 className="text-2xl font-bold mb-6 text-center text-black">
           Welcome to the Geld
         </h1>
-        <div className="flex justify-around">
+        <div className="flex justify-around gap-6">
           <Link href="/signup">
             <button className="bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600">
               Sign Up
@@ -35,6 +35,7 @@ const Home = () => {
           </Link>
         </div>
       </div>
+      <div className="w-1/2 bg-[#0166FF] h-full"></div>
     </div>
   );
 };

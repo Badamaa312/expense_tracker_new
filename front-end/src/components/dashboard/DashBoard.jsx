@@ -7,7 +7,7 @@ const DashBoard = () => {
     <div className="container flex justify-between mt-[40px]">
       <div
         style={{
-          backgroundImage: `url(bgcard.png)`,
+          backgroundImage: `url(Noise.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
