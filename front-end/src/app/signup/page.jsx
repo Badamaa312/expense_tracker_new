@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -23,7 +24,7 @@ const Signup = () => {
     onSubmit: async (values) => {
       setErrorMessage("");
       try {
-        const response = await fetch("http://localhost:3030/signup", {
+        const response = await fetch("http://localhost:1234/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
