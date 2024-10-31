@@ -19,7 +19,7 @@ app.get("/", (request, response) => {
 
 app.get("/signup", async (request, response) => {
   try {
-    const sqlResponse = await sql`SELECT * FROM expenses`;
+    const sqlResponse = await sql`SELECT * FROM User`;
 
     response.json({ data: sqlResponse, success: true });
   } catch (error) {
@@ -31,14 +31,14 @@ app.post("/signup", async (request, response) => {
   const { name, email, password } = request.body;
 
   try {
-    const existingUser = await sql`SELECT * FROM expenses WHERE email=${email}`;
+    const existingUser = await sql`SELECT * FROM User WHERE email=${email}`;
 
     if (existingUser.length > 0) {
       return response.status(400).json({ message: "User already exists" });
     }
 
     const newUser = await sql`
-  INSERT INTO expenses (name, email, password)
+  INSERT INTO User (name, email, password)
   VALUES( ${name}, ${email}, ${password})
   RETURNING *; `;
     response
@@ -55,7 +55,7 @@ app.post("/login", async (request, response) => {
   const { email, password } = request.body;
 
   try {
-    const user = await sql`SELECT * FROM expenses WHERE email =${email}`;
+    const user = await sql`SELECT * FROM User WHERE email =${email}`;
 
     if (user.length === 0) {
       return response
