@@ -1,4 +1,4 @@
-export const SevenEightIcon = () => {
+export const TwentyEightIcon = () => {
   return (
     <svg
       width="24"

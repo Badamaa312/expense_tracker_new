@@ -12,6 +12,31 @@ import { ThreeIcon } from "../svg/icons/3";
 import { FourIcon } from "../svg/icons/4";
 import { FiveIcon } from "../svg/icons/5";
 import { SixIcon } from "../svg/icons/6";
+import { Numbers } from "../svg/icons/Numbers";
+import { SevenIcon } from "../svg/icons/7";
+import { EigthIcon } from "../svg/icons/8";
+import { NineIcon } from "../svg/icons/9";
+import { TenthIcon } from "../svg/icons/10";
+import { EleventhIcon } from "../svg/icons/11";
+import { TwelweIcon } from "../svg/icons/12";
+import { ThirteenIcon } from "../svg/icons/13";
+import { FourteenIcon } from "../svg/icons/14";
+import { FifteenIcon } from "../svg/icons/15";
+import { SixteenIcon } from "../svg/icons/16";
+import { SeventeenIcon } from "../svg/icons/17";
+import { EighteenIcon } from "../svg/icons/18";
+import { NineteenIcon } from "../svg/icons/19";
+import { TwentyIcon } from "../svg/icons/20";
+import { TwentyOneIcon } from "../svg/icons/21";
+import { TwentyTwoIcon } from "../svg/icons/22";
+import { TwentyThreeIcon } from "../svg/icons/23";
+import { TwentyFourIcon } from "../svg/icons/24";
+import { TwentyFiveIcon } from "../svg/icons/25";
+import { TwentySixIcon } from "../svg/icons/26";
+import { TwentySevenIcon } from "../svg/icons/27";
+import { TwentyNineIcon } from "../svg/icons/29";
+import { ThirtyIcon } from "../svg/icons/30";
+import { TwentyEightIcon } from "../svg/icons/28";
 
 export const Category = () => {
   const [isClicked, setIsClicked] = useState(true);
@@ -51,13 +76,13 @@ export const Category = () => {
           <div className="flex justify-center h-[150px] gap-6 p-6">
             <div className=" flex flex-col gap-5 mr-4 ml-4">
               <div className="flex justify-between w-[450px] gap-1 ">
-                {/* <button
+                <button
                   className="btn ml-4"
                   onClick={() =>
                     document.getElementById("my_modal_3").showModal()
                   }
-                ></button> */}
-
+                ></button>
+                {/* 
                 <details className="dropdown flex gap-2 ">
                   <summary className="btn flex items-center gap-2">
                     <OneIcon />
@@ -80,20 +105,46 @@ export const Category = () => {
                       </div>
                     </li>
                   </ul>
-                </details>
+                </details> */}
 
-                {/* <dialog
+                <dialog
                   id="my_modal_3"
                   className="top-[270px] left-[-70px] p-[24px] modal"
                 >
                   <div className=" w-[312px] modal-box flex flex-col gap-6">
                     <div className="grid grid-cols-6 grid-rows-5 gap-6 ">
+                      {/* <Numbers /> */}
+
                       <OneIcon />
                       <TwoIcon />
                       <ThreeIcon />
                       <FourIcon />
                       <FiveIcon />
                       <SixIcon />
+                      <SevenIcon />
+                      <EigthIcon />
+                      <NineIcon />
+                      <TenthIcon />
+                      <EleventhIcon />
+                      <TwelweIcon />
+                      <ThirteenIcon />
+                      <FourteenIcon />
+                      <FifteenIcon />
+                      <SixteenIcon />
+                      <SeventeenIcon />
+                      <EighteenIcon />
+                      <NineteenIcon />
+                      <TwentyIcon />
+                      <TwentyOneIcon />
+                      <TwentyTwoIcon />
+                      <TwentyThreeIcon />
+                      <TwentyFourIcon />
+                      <TwentyFiveIcon />
+                      <TwentySixIcon />
+                      <TwentySevenIcon />
+                      <TwentyEightIcon />
+                      <TwentyNineIcon />
+                      <ThirtyIcon />
                     </div>
                     <p className="border-b border-b-[#E2E8F0] w-full"></p>
                     <div className="grid grid-cols-7 gap-6">
@@ -109,7 +160,7 @@ export const Category = () => {
                   <form method="dialog" className="modal-backdrop">
                     <button>close</button>
                   </form>
-                </dialog> */}
+                </dialog>
                 <input
                   type="text"
                   placeholder="Name"

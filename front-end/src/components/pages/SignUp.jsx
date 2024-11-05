@@ -35,10 +35,17 @@ export const SignUpPage = () => {
         });
         const data = await response.json();
 
-        if (response.ok) {
-          router.push("/login");
+        if (response.status) {
+          toast.success("Login successful");
+          localStorage.setItem("isLoggedIn", "true");
+          router.push("/dashboard");
+        }
+        if (data.message == "password not match") {
+          toast.warning("Password not match. Try again");
         } else {
           setErrorMessage(data.message || "Error occurred");
+          toast.error("Please sign up");
+          router.push("/signup");
         }
       } catch (error) {
         setErrorMessage("Network error");
