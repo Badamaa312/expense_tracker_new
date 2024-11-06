@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { WhitePlusIcon } from "../svg/WhitePlus";
 import { CloseIcon } from "../svg/Close";
-
 import { OneIcon } from "../svg/icons/1";
-
 import { ArrowDropDown } from "../svg/ArrowDropDown";
 import { TwoIcon } from "../svg/icons/2";
 import { ThreeIcon } from "../svg/icons/3";
@@ -37,15 +35,38 @@ import { TwentySevenIcon } from "../svg/icons/27";
 import { TwentyNineIcon } from "../svg/icons/29";
 import { ThirtyIcon } from "../svg/icons/30";
 import { TwentyEightIcon } from "../svg/icons/28";
+import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
 
 export const Category = () => {
-  const [isClicked, setIsClicked] = useState(true);
-  const [isColor, setIsColor] = useState(true);
+  // const router = useRouter();
 
-  const ChangeBgColor = () => {
-    setIsClicked(!isClicked);
-    setIsColor(!isColor);
-  };
+  // const formik = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     icon_color: "",
+  //     category_icon: "",
+  //   },
+  //   validationSchema: Yup.object({
+  //     name: Yup.string().name("Please insert name".required("Required")),
+  //   }),
+  //   onSubmit: async (values) => {
+  //     try {
+  //       const response = await fetch("http://localhost:1234/category", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(values),
+  //       });
+
+  //       const data = await response.json();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+  // });
+
   return (
     <div>
       <button
@@ -75,46 +96,22 @@ export const Category = () => {
           </div>
           <div className="flex justify-center h-[150px] gap-6 p-6">
             <div className=" flex flex-col gap-5 mr-4 ml-4">
-              <div className="flex justify-between w-[450px] gap-1 ">
+              <div className="flex justify-around w-[450px] gap-3 ">
                 <button
                   className="btn ml-4"
                   onClick={() =>
                     document.getElementById("my_modal_3").showModal()
                   }
-                ></button>
-                {/* 
-                <details className="dropdown flex gap-2 ">
-                  <summary className="btn flex items-center gap-2">
-                    <OneIcon />
-                    <ArrowDropDown />
-                  </summary>
-
-                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                    <li>
-                      <img src="./Frame.png" alt="" />
-                    </li>
-                    <li>
-                      <div className="grid grid-cols-7 gap-6">
-                        <p className="w-[24px] h-[24px] bg-[#0166FF] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#01B3FF] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#41CC00] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#F9D100] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#FF7B01] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#AE01FF] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#FF0101] rounded-[50%]"></p>
-                      </div>
-                    </li>
-                  </ul>
-                </details> */}
-
+                >
+                  <OneIcon />
+                  <ArrowDropDown />
+                </button>
                 <dialog
                   id="my_modal_3"
                   className="top-[270px] left-[-70px] p-[24px] modal"
                 >
                   <div className=" w-[312px] modal-box flex flex-col gap-6">
                     <div className="grid grid-cols-6 grid-rows-5 gap-6 ">
-                      {/* <Numbers /> */}
-
                       <OneIcon />
                       <TwoIcon />
                       <ThreeIcon />
@@ -158,7 +155,9 @@ export const Category = () => {
                     </div>
                   </div>
                   <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
+                    <button>
+                      <CloseIcon />
+                    </button>
                   </form>
                 </dialog>
                 <input
@@ -167,7 +166,7 @@ export const Category = () => {
                   className="input input-bordered w-[350px] bg-[#F3F4F6]  mr-4  "
                 />
               </div>
-              <button className=" h-10 bg-[#16A34A] rounded-lg mr-4 ml-4 ">
+              <button className=" h-10 bg-[#16A34A] rounded-lg mr-4 ml-4">
                 Add
               </button>
             </div>
@@ -177,3 +176,30 @@ export const Category = () => {
     </div>
   );
 };
+
+{
+  /* 
+                <details className="dropdown flex gap-2 ">
+                  <summary className="btn flex items-center gap-2">
+                    <OneIcon />
+                    <ArrowDropDown />
+                  </summary>
+
+                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                    <li>
+                      <img src="./Frame.png" alt="" />
+                    </li>
+                    <li>
+                      <div className="grid grid-cols-7 gap-6">
+                        <p className="w-[24px] h-[24px] bg-[#0166FF] rounded-[50%]"></p>
+                        <p className="w-[24px] h-[24px] bg-[#01B3FF] rounded-[50%]"></p>
+                        <p className="w-[24px] h-[24px] bg-[#41CC00] rounded-[50%]"></p>
+                        <p className="w-[24px] h-[24px] bg-[#F9D100] rounded-[50%]"></p>
+                        <p className="w-[24px] h-[24px] bg-[#FF7B01] rounded-[50%]"></p>
+                        <p className="w-[24px] h-[24px] bg-[#AE01FF] rounded-[50%]"></p>
+                        <p className="w-[24px] h-[24px] bg-[#FF0101] rounded-[50%]"></p>
+                      </div>
+                    </li>
+                  </ul>
+                </details> */
+}
