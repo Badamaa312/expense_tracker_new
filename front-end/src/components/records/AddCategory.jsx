@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WhitePlusIcon } from "../svg/WhitePlus";
 import { CloseIcon } from "../svg/Close";
 import { OneIcon } from "../svg/icons/1";
@@ -10,7 +10,6 @@ import { ThreeIcon } from "../svg/icons/3";
 import { FourIcon } from "../svg/icons/4";
 import { FiveIcon } from "../svg/icons/5";
 import { SixIcon } from "../svg/icons/6";
-import { Numbers } from "../svg/icons/Numbers";
 import { SevenIcon } from "../svg/icons/7";
 import { EigthIcon } from "../svg/icons/8";
 import { NineIcon } from "../svg/icons/9";
@@ -35,37 +34,90 @@ import { TwentySevenIcon } from "../svg/icons/27";
 import { TwentyNineIcon } from "../svg/icons/29";
 import { ThirtyIcon } from "../svg/icons/30";
 import { TwentyEightIcon } from "../svg/icons/28";
-import { useRouter } from "next/navigation";
-import { useFormik } from "formik";
+import { BACKEND_ENDPOINT } from "../constant/constant";
 
 export const Category = () => {
-  // const router = useRouter();
+  const [bgColor, setBgColor] = useState("#F3F4F6");
+  const [bgIcon, setBgIcon] = useState("HomeIcon");
+  const [categoryName, setCategoryName] = useState("");
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     name: "",
-  //     icon_color: "",
-  //     category_icon: "",
-  //   },
-  //   validationSchema: Yup.object({
-  //     name: Yup.string().name("Please insert name".required("Required")),
-  //   }),
-  //   onSubmit: async (values) => {
-  //     try {
-  //       const response = await fetch("http://localhost:1234/category", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(values),
-  //       });
+  const handleColor = (color) => {
+    return setBgColor(color);
+  };
 
-  //       const data = await response.json();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   },
-  // });
+  const handleIcon = (iconName) => {
+    return setBgIcon(iconName);
+  };
+
+  const handleInputChange = (event) => {
+    setCategoryName(event.target.value);
+  };
+
+  const addCategory = async () => {
+    try {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({ categoryName, bgIcon, bgColor }),
+      };
+
+      const response = await fetch(`${BACKEND_ENDPOINT}/category`, options);
+      const data = await response.json();
+
+      setCategoryName((prevCats) => [...prevCats, data]);
+    } catch (error) {
+      console.log("Category added error");
+    }
+    document.getElementById("my_modal_2").close();
+  };
+
+  const colors = [
+    { id: 1, color: "#0166FF" },
+    { id: 2, color: "#01B3FF" },
+    { id: 3, color: "#41CC00" },
+    { id: 4, color: "#F9D100" },
+    { id: 5, color: "#FF7B01" },
+    { id: 6, color: "#AE01FF" },
+    { id: 7, color: "#FF0101" },
+  ];
+
+  const icons = [
+    { name: "HomeIcon", icon: <OneIcon /> },
+    { name: "SecondIcon", icon: <TwoIcon /> },
+    { name: "ThirdIcon", icon: <ThreeIcon /> },
+    { name: "FourthIcon", icon: <FourIcon /> },
+    { name: "FifthIcon", icon: <FiveIcon /> },
+    { name: "Sixthcon", icon: <SixIcon /> },
+    { name: "SeventhIcon", icon: <SevenIcon /> },
+    { name: "EightIcon", icon: <EigthIcon /> },
+    { name: "NinethIcon", icon: <NineIcon /> },
+    { name: "TenthIcon", icon: <TenthIcon /> },
+    { name: "EleventhIcon", icon: <EleventhIcon /> },
+    { name: "TwelfthIcon", icon: <TwelweIcon /> },
+    { name: "ThirteenthIcon", icon: <ThirteenIcon /> },
+    { name: "Fourteenth", icon: <FourteenIcon /> },
+    { name: "FifteenthIcon", icon: <FifteenIcon /> },
+    { name: "SixteenthIcon", icon: <SixteenIcon /> },
+    { name: "SeventeenthIcon", icon: <SeventeenIcon /> },
+    { name: "EighteenthIcon", icon: <EighteenIcon /> },
+    { name: "NineteenthIcon", icon: <NineteenIcon /> },
+    { name: "TwentiethIcon", icon: <TwentyIcon /> },
+    { name: "TwentyFirstIcon", icon: <TwentyOneIcon /> },
+    { name: "TwentySecondIcon", icon: <TwentyTwoIcon /> },
+    { name: "TwentyThirdIcon", icon: <TwentyThreeIcon /> },
+    { name: "TwentyFourthIcon", icon: <TwentyFourIcon /> },
+    { name: "TwentyFifthIcon", icon: <TwentyFiveIcon /> },
+    { name: "TwentySixthIcon", icon: <TwentySixIcon /> },
+    { name: "TwentySeventhIcon", icon: <TwentySevenIcon /> },
+    { name: "TwentyEighticon", icon: <TwentyEightIcon /> },
+    { name: "TwentyNinethIcon", icon: <TwentyNineIcon /> },
+    { name: "ThirtiethIcon", icon: <ThirtyIcon /> },
+  ];
+
+  const defaultIcon = icons?.find((icon) => icon?.name === bgIcon);
 
   return (
     <div>
@@ -94,112 +146,65 @@ export const Category = () => {
               </button>
             </form>
           </div>
-          <div className="flex justify-center h-[150px] gap-6 p-6">
-            <div className=" flex flex-col gap-5 mr-4 ml-4">
-              <div className="flex justify-around w-[450px] gap-3 ">
-                <button
-                  className="btn ml-4"
-                  onClick={() =>
-                    document.getElementById("my_modal_3").showModal()
-                  }
+          <div className="py-[24px] px-[20px] flex flex-col gap-4">
+            <div className="flex justify-between w-[420px] items-center">
+              <details className="dropdown">
+                <summary
+                  style={{ backgroundColor: bgColor }}
+                  className={`btn m-1 ] flex flex-col`}
                 >
-                  <OneIcon />
-                  <ArrowDropDown />
-                </button>
-                <dialog
-                  id="my_modal_3"
-                  className="top-[270px] left-[-70px] p-[24px] modal"
+                  {defaultIcon?.icon}
+                </summary>
+                <ul
+                  id="unordered_list"
+                  className="menu dropdown-content bg-base-100 rounded-box z-[1] w-[320px] p-2 shadow"
                 >
-                  <div className=" w-[312px] modal-box flex flex-col gap-6">
-                    <div className="grid grid-cols-6 grid-rows-5 gap-6 ">
-                      <OneIcon />
-                      <TwoIcon />
-                      <ThreeIcon />
-                      <FourIcon />
-                      <FiveIcon />
-                      <SixIcon />
-                      <SevenIcon />
-                      <EigthIcon />
-                      <NineIcon />
-                      <TenthIcon />
-                      <EleventhIcon />
-                      <TwelweIcon />
-                      <ThirteenIcon />
-                      <FourteenIcon />
-                      <FifteenIcon />
-                      <SixteenIcon />
-                      <SeventeenIcon />
-                      <EighteenIcon />
-                      <NineteenIcon />
-                      <TwentyIcon />
-                      <TwentyOneIcon />
-                      <TwentyTwoIcon />
-                      <TwentyThreeIcon />
-                      <TwentyFourIcon />
-                      <TwentyFiveIcon />
-                      <TwentySixIcon />
-                      <TwentySevenIcon />
-                      <TwentyEightIcon />
-                      <TwentyNineIcon />
-                      <ThirtyIcon />
-                    </div>
-                    <p className="border-b border-b-[#E2E8F0] w-full"></p>
-                    <div className="grid grid-cols-7 gap-6">
-                      <p className="w-[24px] h-[24px] bg-[#0166FF] rounded-[50%]"></p>
-                      <p className="w-[24px] h-[24px] bg-[#01B3FF] rounded-[50%]"></p>
-                      <p className="w-[24px] h-[24px] bg-[#41CC00] rounded-[50%]"></p>
-                      <p className="w-[24px] h-[24px] bg-[#F9D100] rounded-[50%]"></p>
-                      <p className="w-[24px] h-[24px] bg-[#FF7B01] rounded-[50%]"></p>
-                      <p className="w-[24px] h-[24px] bg-[#AE01FF] rounded-[50%]"></p>
-                      <p className="w-[24px] h-[24px] bg-[#FF0101] rounded-[50%]"></p>
-                    </div>
+                  <li className="grid grid-cols-6 grid-rows-5 w-[300px]">
+                    {icons.map((icon, index) => {
+                      return (
+                        <button
+                          onClick={() => {
+                            handleIcon(icon?.name);
+                          }}
+                          key={index}
+                        >
+                          {icon.icon}
+                        </button>
+                      );
+                    })}
+                  </li>
+                  <div className="flex justify-between items-center mt-4">
+                    {colors.map((color) => (
+                      <button
+                        onClick={() => {
+                          handleColor(color?.color);
+                        }}
+                        key={color.id}
+                        style={{ backgroundColor: color.color }}
+                        className={`w-8 h-8 rounded-full`}
+                      ></button>
+                    ))}
                   </div>
-                  <form method="dialog" className="modal-backdrop">
-                    <button>
-                      <CloseIcon />
-                    </button>
-                  </form>
-                </dialog>
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="input input-bordered w-[350px] bg-[#F3F4F6]  mr-4  "
-                />
-              </div>
-              <button className=" h-10 bg-[#16A34A] rounded-lg mr-4 ml-4">
-                Add
-              </button>
+                </ul>
+              </details>
+
+              <input
+                onChange={handleInputChange}
+                type="text"
+                placeholder="Name"
+                className="input input-bordered w-[350px] bg-[#F3F4F6]"
+              />
             </div>
+
+            <button
+              onClick={addCategory}
+              className="w-ful bg-[#16A34A] text-white rounded-[24px] py-[10px]"
+            >
+              Add
+            </button>
           </div>
         </div>
       </dialog>
     </div>
   );
 };
-
-{
-  /* 
-                <details className="dropdown flex gap-2 ">
-                  <summary className="btn flex items-center gap-2">
-                    <OneIcon />
-                    <ArrowDropDown />
-                  </summary>
-
-                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                    <li>
-                      <img src="./Frame.png" alt="" />
-                    </li>
-                    <li>
-                      <div className="grid grid-cols-7 gap-6">
-                        <p className="w-[24px] h-[24px] bg-[#0166FF] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#01B3FF] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#41CC00] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#F9D100] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#FF7B01] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#AE01FF] rounded-[50%]"></p>
-                        <p className="w-[24px] h-[24px] bg-[#FF0101] rounded-[50%]"></p>
-                      </div>
-                    </li>
-                  </ul>
-                </details> */
-}
