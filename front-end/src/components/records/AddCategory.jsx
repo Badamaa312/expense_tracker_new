@@ -36,22 +36,26 @@ import { ThirtyIcon } from "../svg/icons/30";
 import { TwentyEightIcon } from "../svg/icons/28";
 import { BACKEND_ENDPOINT } from "../constant/constant";
 
-export const Category = () => {
-  const [bgColor, setBgColor] = useState("#F3F4F6");
-  const [bgIcon, setBgIcon] = useState("HomeIcon");
+export const AddCategory = () => {
+  const [categoryColor, setCategoryColor] = useState("#F3F4F6");
+  const [categoryIcon, setCategoryIcon] = useState("HomeIcon");
   const [categoryName, setCategoryName] = useState("");
 
   const handleColor = (color) => {
-    return setBgColor(color);
+    return setCategoryColor(color);
   };
 
   const handleIcon = (iconName) => {
-    return setBgIcon(iconName);
+    return setCategoryIcon(iconName);
   };
 
   const handleInputChange = (event) => {
     setCategoryName(event.target.value);
   };
+
+  // const onFocus =(event)=>{
+  //   setCategoryIcon(event.target.value)
+  // }
 
   const addCategory = async () => {
     try {
@@ -61,13 +65,15 @@ export const Category = () => {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify({ categoryName, bgIcon, bgColor }),
+        body: JSON.stringify({ categoryName, categoryIcon, categoryColor }),
       };
 
       const response = await fetch(`${BACKEND_ENDPOINT}/category`, options);
       const data = await response.json();
 
       setCategoryName((prevCats) => [...prevCats, data]);
+      setCategoryColor("#F3F4F6");
+      setCategoryIcon("HomeIcon");
     } catch (error) {
       console.log("Category added error");
     }
@@ -117,7 +123,7 @@ export const Category = () => {
     { name: "ThirtiethIcon", icon: <ThirtyIcon /> },
   ];
 
-  const defaultIcon = icons?.find((icon) => icon?.name === bgIcon);
+  const defaultIcon = icons?.find((icon) => icon?.name === categoryIcon);
 
   return (
     <div>
@@ -150,10 +156,11 @@ export const Category = () => {
             <div className="flex justify-between w-[420px] items-center">
               <details className="dropdown">
                 <summary
-                  style={{ backgroundColor: bgColor }}
-                  className={`btn m-1 ] flex flex-col`}
+                  style={{ backgroundColor: categoryColor }}
+                  className={`btn m-1 flex flex-col`}
                 >
                   {defaultIcon?.icon}
+                  <ArrowDropDown />
                 </summary>
                 <ul
                   id="unordered_list"
@@ -187,15 +194,14 @@ export const Category = () => {
                   </div>
                 </ul>
               </details>
-
               <input
                 onChange={handleInputChange}
+                // onFocus={}
                 type="text"
                 placeholder="Name"
                 className="input input-bordered w-[350px] bg-[#F3F4F6]"
               />
             </div>
-
             <button
               onClick={addCategory}
               className="w-ful bg-[#16A34A] text-white rounded-[24px] py-[10px]"

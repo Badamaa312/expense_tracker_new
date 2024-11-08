@@ -1,13 +1,35 @@
+"use client";
+
 import Home from "@/app/page";
 import { EyeIcon } from "../svg/Eye";
-import { LeftSideIcon, LeftSideicon } from "../svg/LeftSideIcon";
+import { LeftSideIcon } from "../svg/LeftSideIcon";
 import { RightSideIcon } from "../svg/RightSideIcon";
 import { AddButton } from "./AddButton";
-import { Category } from "./AddCategory";
+import { AddCategory, Category } from "./AddCategory";
 import { HomeIcon } from "../svg/Home";
 import { FoodIcon } from "../svg/Food";
+import { useEffect, useState } from "react";
+import { BACKEND_ENDPOINT } from "../constant/constant";
 
 const Records = () => {
+  const [categories, setCategory] = useState([]);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(`${BACKEND_ENDPOINT}/category`);
+      const data = await response.json();
+      setCategory(data?.data);
+      console.log(data.data);
+    } catch (error) {
+      console.log("Category error", error);
+    }
+  };
+
+  console.log(categories.name);
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <main className="w-full flex justify-center mt-10">
       <div className="container flex  gap-10">
@@ -62,64 +84,16 @@ const Records = () => {
               <div className="flex flex-col gap-[8px] pl-3">
                 <div className="flex gap-[10px]">
                   <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">
-                    Food & Drinks
-                  </p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">Shopping</p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">Housing</p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">
-                    Transportation
-                  </p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">Vehicle</p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">
-                    Life & Entertainment
-                  </p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">
-                    Communication, PC
-                  </p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">
-                    Financial expenses
-                  </p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">
-                    Investments
-                  </p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">Income</p>
-                </div>
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <p className="text-[16px] font-[400] leading-6">Other</p>
+                  <div className="text-[16px] font-[400] leading-6">
+                    {categories.map((category, index) => {
+                      return <div key={index}>{category.name}</div>;
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
             <div>
-              <Category />
+              <AddCategory />
             </div>
           </div>
         </div>
@@ -166,7 +140,7 @@ const Records = () => {
                       <FoodIcon />
                       <div className="flex flex-col gap">
                         <p className="text-[16px] font-[400] leading-6">
-                          Food & Drinks
+                          {/* {Food & Drinks} */}
                         </p>
                         <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
                           14:00

@@ -85,12 +85,12 @@ app.get("/category", async (request, response) => {
 });
 
 app.post("/category", async (request, response) => {
-  const { name, description, category_icon, icon_color } = request.body;
+  const { categoryName, categoryIcon, categoryColor } = request.body;
 
   try {
     const newCategory = await sql`
-      INSERT INTO categories (name, description, category_icon, icon_color)
-  VALUES( ${name}, ${description}, ${category_icon},${icon_color} )
+      INSERT INTO categories (name, category_icon, icon_color)
+  VALUES( ${categoryName},${categoryIcon},${categoryColor} )
   RETURNING *;`;
     response.status(201).json({
       message: "Category created successfully",
