@@ -40,7 +40,11 @@ export const AddCategory = () => {
   const [categoryColor, setCategoryColor] = useState("#F3F4F6");
   const [categoryIcon, setCategoryIcon] = useState("HomeIcon");
   const [categoryName, setCategoryName] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
+  const changeOnFocus = () => {
+    setIsFocused(!isFocused);
+  };
   const handleColor = (color) => {
     return setCategoryColor(color);
   };
@@ -52,10 +56,6 @@ export const AddCategory = () => {
   const handleInputChange = (event) => {
     setCategoryName(event.target.value);
   };
-
-  // const onFocus =(event)=>{
-  //   setCategoryIcon(event.target.value)
-  // }
 
   const addCategory = async () => {
     try {
@@ -196,7 +196,7 @@ export const AddCategory = () => {
               </details>
               <input
                 onChange={handleInputChange}
-                // onFocus={}
+                onFocus={changeOnFocus}
                 type="text"
                 placeholder="Name"
                 className="input input-bordered w-[350px] bg-[#F3F4F6]"
