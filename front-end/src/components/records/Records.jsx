@@ -1,18 +1,29 @@
 "use client";
 
-import Home from "@/app/page";
 import { EyeIcon } from "../svg/Eye";
 import { LeftSideIcon } from "../svg/LeftSideIcon";
 import { RightSideIcon } from "../svg/RightSideIcon";
 import { AddButton } from "./AddButton";
 import { AddCategory, Category } from "./AddCategory";
-import { HomeIcon } from "../svg/Home";
-import { FoodIcon } from "../svg/Food";
 import { useEffect, useState } from "react";
 import { BACKEND_ENDPOINT } from "../constant/constant";
+import { NoEye } from "../svg/NoEye";
 
 const Records = () => {
   const [categories, setCategory] = useState([]);
+  const [clickedCategoryName, setClickedCategoryName] = useState("");
+  const [isClicked, setIsClicked] = useState(true);
+  const [records, setRecords] = useState([]);
+  const [transactionType, setTransactionType] = useState("ALL");
+
+  let filteredCategories = [];
+  if (!clickedCategoryName) {
+    filteredCategories = categories;
+  } else {
+    filteredCategories = categories?.filter(
+      (category) => category?.name === clickedCategoryName
+    );
+  }
 
   const fetchCategories = async () => {
     try {
@@ -25,10 +36,33 @@ const Records = () => {
     }
   };
 
-  console.log(categories.name);
+  const fetchRecords = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_ENDPOINT}/transaction?transactionType=${transactionType}`
+      );
+      const data = await response.json();
+      setRecords(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const transactType = (value) => {
+    setTransactionType(value);
+  };
+  const handleIcon = (name) => {
+    setClickedCategoryName(name, !isClicked);
+  };
+  const handleClearButton = () => {
+    setClickedCategoryName(!isClicked);
+    setClickedCategoryName("");
+  };
+
   useEffect(() => {
     fetchCategories();
-  }, []);
+    fetchRecords();
+  }, [transactionType]);
 
   return (
     <main className="w-full flex justify-center mt-10">
@@ -49,6 +83,7 @@ const Records = () => {
               <div className="flex flex-col gap-1 ml-[20px]">
                 <div className="flex gap-[15px] items-center">
                   <input
+                    onClick={() => transactType("All")}
                     type="radio"
                     name="radio-1"
                     className="radio w-[15px] h-[15px]"
@@ -58,6 +93,7 @@ const Records = () => {
                 </div>
                 <div className="flex gap-[15px] items-center">
                   <input
+                    onClick={() => transactType("INC")}
                     type="radio"
                     name="radio-1"
                     className="radio w-[15px] h-[15px]"
@@ -66,6 +102,7 @@ const Records = () => {
                 </div>
                 <div className="flex gap-[15px] items-center">
                   <input
+                    onClick={() => transactType("EXP")}
                     type="radio"
                     name="radio-1"
                     className="radio w-[15px] h-[15px]"
@@ -74,21 +111,36 @@ const Records = () => {
                 </div>
               </div>
             </div>
+            {/* // Category input side */}
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
                 <h1 className="text-[16px] font-[600] leading-6">Category</h1>
-                <button className="text-gray-300 text-[16px] font-[400] leading-6">
+                <button
+                  onClick={handleClearButton}
+                  className=" text-[16px] text-gray-500 font-[400] leading-6"
+                >
                   Clear
                 </button>
               </div>
               <div className="flex flex-col gap-[8px] pl-3">
-                <div className="flex gap-[10px]">
-                  <EyeIcon />
-                  <div className="text-[16px] font-[400] leading-6">
-                    {categories.map((category, index) => {
-                      return <div key={index}>{category.name}</div>;
-                    })}
-                  </div>
+                <div className="text-[16px] font-[400] leading-6">
+                  {categories.map((category, index) => {
+                    return (
+                      <div key={index} className="flex gap-[10px] items-center">
+                        {clickedCategoryName === category.name ? (
+                          <EyeIcon />
+                        ) : (
+                          <NoEye />
+                        )}
+                        <button
+                          onClick={() => handleIcon(category?.name)}
+                          className="text-[px] font-[400] leading-6"
+                        >
+                          {category?.name}
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -115,171 +167,45 @@ const Records = () => {
                 </select>
               </div>
               <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-3">
-                  <h1 className="text-[16px] font-[600] leading-6 ">Today</h1>
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <HomeIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          Lending & Rent
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
+                <h1 className="text-[16px] font-[600] leading-6 ">Today</h1>
+                {filteredCategories?.map((category, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between px-6 py-4 bg-white rounded-[12px]"
+                    >
+                      <div className="flex gap-4">
+                        <div
+                          className="rounded-full w-10 h-10 flex justify-center items-center"
+                          style={{
+                            backgroundColor: category.icon_color,
+                            // backgroundImage: category.category_icon,
+                          }}
+                        >
+                          {category?.category_icon}
+                        </div>
+                        <div className="flex flex-col gap-4 justify-center items-center">
+                          <p className="text-[16px] font-[400] leading-6">
+                            {category?.name}
+                          </p>
+                          <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
+                            {category?.date}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        className={`flex items-center gap-2 ${
+                          category?.transaction_type == "INC"
+                            ? "text-[#84CC16]"
+                            : "text-[red]"
+                        }  text-[16px] font-[600] leading-6`}
+                      >
+                        <p>{category.transaction_type == "INC" ? "+" : "-"}</p>
+                        <p className="number">{category?.amount}₮</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-[#84CC16] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <FoodIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          {/* {Food & Drinks} */}
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-[red] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <FoodIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          Food & Drinks
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-[red] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <FoodIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          Food & Drinks
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-[red] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3">
-                  <h1 className="text-[16px] font-[600] leading-6 ">
-                    Yesterday
-                  </h1>
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <FoodIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          Food & Drinks
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-[red] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <FoodIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          Food & Drinks
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-[red] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <FoodIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          Food & Drinks
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-[red] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <FoodIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          Food & Drinks
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-[red] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between px-6 py-4 bg-white rounded-[12px]">
-                    <div className="flex gap-4">
-                      <FoodIcon />
-                      <div className="flex flex-col gap">
-                        <p className="text-[16px] font-[400] leading-6">
-                          Food & Drinks
-                        </p>
-                        <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                          14:00
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-[red] text-[16px] font-[600] leading-6">
-                      <p>+</p>
-                      <p>1,000₮</p>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
           </div>

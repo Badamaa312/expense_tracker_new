@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { WhitePlusIcon } from "./svg/WhitePlus";
+import { CloseIcon } from "./svg/Close";
+import { BACKEND_ENDPOINT } from "./constant/constant";
 
 export const AddRecord = () => {
   const [isClicked, setIsClicked] = useState(true);
@@ -11,6 +13,32 @@ export const AddRecord = () => {
     setIsClicked(!isClicked);
     setIsColor(!isColor);
   };
+
+  const addRecord = async () => {
+    try {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          name: name,
+          amount: amount,
+          transaction_type: transaction,
+          description: description,
+          category_id: category_id,
+        }),
+      };
+
+      const response = await fetch(`${BACKEND_ENDPOINT}/record`, options);
+      const data = await response.json();
+    } catch (error) {
+      console.log("Record added error");
+    }
+    document.getElementById("my_modal_1").close();
+  };
+
   return (
     <div>
       <button
@@ -20,7 +48,7 @@ export const AddRecord = () => {
         <WhitePlusIcon />
         <p className="text-[14px] leading-4 font-[400] text-[white]">Record</p>
       </button>
-      <dialog id="my_modal_1" className="modal ">
+      <dialog id="my_modal_1" className="modal">
         <div className="bg-white rounded-xl p-0 w-[792px]">
           <div className="w-[792px] flex items-center justify-between h-[50px] border-b border-b-[#E2E8F0] py-[24px] px-[30px]">
             <h3 className="text-[20px] leading-7 font-[600]">Add record</h3>
@@ -28,7 +56,9 @@ export const AddRecord = () => {
               method="dialog"
               className="flex justify-between items-center "
             >
-              <button className=" top-1">✕</button>
+              <button className=" top-1">
+                <CloseIcon />
+              </button>
             </form>
           </div>
           <div className="flex justify-center w-[792px]">
@@ -89,6 +119,7 @@ export const AddRecord = () => {
                   </div>
                 </div>
                 <button
+                  onClick={addRecord}
                   className={`w-full rounded-[20px] flex justify-center items-center text-white py-[12px] ${
                     isColor ? "bg-[#0166FF]" : "bg-[#16A34A]"
                   }`}

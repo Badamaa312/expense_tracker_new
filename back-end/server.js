@@ -103,7 +103,7 @@ app.post("/category", async (request, response) => {
   }
 });
 
-app.get("/transaction", async (request, response) => {
+app.get("/record", async (request, response) => {
   try {
     const sqlResponse = await sql`SELECT * FROM records`;
     response.json({ data: sqlResponse, success: true });
@@ -112,15 +112,14 @@ app.get("/transaction", async (request, response) => {
   }
 });
 
-app.post("/transaction", async (request, response) => {
-  const { userId, name, amount, transaction_type, description, categoryId } =
+app.post("/record", async (request, response) => {
+  const { user_id, name, amount, transaction_type, description, categoryId } =
     request.body;
-  console.log(request.body);
 
   try {
     const newRecord =
       await sql`INSERT INTO records (user_id, name, amount, transaction_type, description, category_id )
-  VALUES( ${userId}, ${name}, ${amount}, ${transaction_type},${description} ,${categoryId})
+  VALUES( ${user_id}, ${name}, ${amount}, ${transaction_type},${description} ,${categoryId})
   RETURNING *`;
 
     response.json({
@@ -129,6 +128,33 @@ app.post("/transaction", async (request, response) => {
     });
   } catch (error) {
     response.json({ error: error, success: false });
+  }
+});
+
+app.get("/transaction", async (request, response) => {
+  const { transactionType } = request.query;
+
+  try {
+    let allRecords = [];
+    if (transactionType == "ALL") {
+      allRecords =
+        await sql`SELECT record.amount, record.transaction_type,category.icon_color, category.name, category.category_icon
+      FROM categories
+      JOIN records ON record.category_id=category.id ORDER BY record.date DESC;`;
+    } else {
+      allRecords =
+        await sql`SELECT record.amount,  record.transaction_type,  category.icon_color, category.name, category.category_icon
+      FROM categories
+      JOIN records ON record.category_id=category.id
+      WHERE transaction_type=${transactionType} ORDER BY record.date DESC;`;
+    }
+    console.log(allRecords);
+    response.status(200).json({
+      message: "All records",
+      data: allRecords,
+    });
+  } catch (error) {
+    console.log(error);
   }
 });
 

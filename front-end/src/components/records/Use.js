@@ -11,10 +11,6 @@ const fetchCategories = async () => {
   }
 };
 
-{
-  clickedCatName === category.name ? <EyeIcon /> : <NotEye />;
-}
-
 // const router = useRouter();
 
 // const formik = useFormik({
