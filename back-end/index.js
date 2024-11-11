@@ -134,20 +134,20 @@ app.post("/record", async (request, response) => {
 
 app.get("/transaction", async (request, response) => {
   const { transactionType } = request.query;
-
+  console.log(transactionType);
   try {
     let allRecords = [];
     if (transactionType == "ALL") {
       allRecords =
         await sql`SELECT record.amount, record.transaction_type,category.icon_color, category.name, category.category_icon
       FROM categories
-      JOIN records ON record.category_id=category.id ORDER BY record.date DESC;`;
+      JOIN records ON record.category_id=category.id ;`;
     } else {
       allRecords =
         await sql`SELECT record.amount,  record.transaction_type,  category.icon_color, category.name, category.category_icon
       FROM categories
       JOIN records ON record.category_id=category.id
-      WHERE transaction_type=${transactionType} ORDER BY record.date DESC;`;
+      WHERE transaction_type=${transactionType} ;`;
     }
     console.log(allRecords);
     response.status(200).json({

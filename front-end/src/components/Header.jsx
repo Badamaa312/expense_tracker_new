@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { AddRecord } from "./AddRecords";
-
 import { useRouter } from "next/navigation";
+import { AddButton } from "./records/AddButton";
 
 const Header = () => {
   const router = useRouter();
@@ -21,7 +20,7 @@ const Header = () => {
         <Link href="./records">Records</Link>
       </div>
       <div className="flex gap-6 items-center">
-        <AddRecord />
+        <AddButton />
         <img src="./Placeholder.png" alt="photo" width={40} height={40} />
         <Link href="./login">
           <button

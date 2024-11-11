@@ -45,12 +45,12 @@ const Records = () => {
   const [records, setRecords] = useState([]);
   const [transactionType, setTransactionType] = useState("ALL");
 
-  let filteredCategories = [];
+  let filteredRecords = [];
   if (!clickedCategoryName) {
-    filteredCategories = categories;
+    filteredRecords = records;
   } else {
-    filteredCategories = categories?.filter(
-      (category) => category?.name === clickedCategoryName
+    filteredRecords = records?.filter(
+      (record) => record?.name === clickedCategoryName
     );
   }
 
@@ -100,15 +100,26 @@ const Records = () => {
 
   const fetchRecords = async () => {
     try {
-      const response = await fetch(
-        `${BACKEND_ENDPOINT}/transaction?transactionType=${transactionType}`
-      );
+      const response = await fetch(`${BACKEND_ENDPOINT}/record`);
       const data = await response.json();
-      setRecords(data.data);
+      setRecords(data?.data);
+      console.log(data.data);
     } catch (error) {
-      console.log(error);
+      console.log("Category error", error);
     }
   };
+
+  // const fetchRecords = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${BACKEND_ENDPOINT}/transaction?transactionType=${transactionType}`
+  //     );
+  //     const data = await response.json();
+  //     setRecords(data.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const transactType = (value) => {
     setTransactionType(value);
@@ -230,7 +241,7 @@ const Records = () => {
               </div>
               <div className="flex flex-col gap-6">
                 <h1 className="text-[16px] font-[600] leading-6 ">Today</h1>
-                {filteredCategories?.map((category, index) => {
+                {filteredRecords?.map((record, index) => {
                   return (
                     <div
                       key={index}
@@ -240,29 +251,29 @@ const Records = () => {
                         <div
                           className="rounded-full w-10 h-10 flex justify-center items-center"
                           style={{
-                            backgroundColor: category.icon_color,
+                            backgroundColor: record.icon_color,
                           }}
                         >
-                          {icons[category?.category_icon]}
+                          {icons[record?.category_icon]}
                         </div>
                         <div className="flex flex-col gap-4 justify-center items-center">
                           <p className="text-[16px] font-[400] leading-6">
-                            {category?.name}
+                            {record?.name}
                           </p>
                           <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                            {category?.date}
+                            {record?.date}
                           </p>
                         </div>
                       </div>
                       <div
                         className={`flex items-center gap-2 ${
-                          category?.transaction_type == "INC"
+                          record?.transaction_type == "INC"
                             ? "text-[#84CC16]"
                             : "text-[red]"
                         }  text-[16px] font-[600] leading-6`}
                       >
-                        <p>{category.transaction_type == "INC" ? "+" : "-"}</p>
-                        <p className="number">{category?.amount}₮</p>
+                        <p>{record.transaction_type == "INC" ? "+" : "-"}</p>
+                        <p className="number">{record?.amount}₮</p>
                       </div>
                     </div>
                   );
