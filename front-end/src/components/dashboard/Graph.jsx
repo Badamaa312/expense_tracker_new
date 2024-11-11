@@ -44,17 +44,28 @@ const Graph = () => {
   };
   return (
     <div className="container flex justify-between mt-[40px]">
-      <div className="rounded-xl flex flex-col w-[640px] h-[416px] bg-white">
+      <div className="rounded-xl flex flex-col w-[740px] h-[466px] bg-white">
+        <div className="flex gap-[8px] items-center px-6 py-4">
+          <p className="text-[16px] leading-[24px] font-[600] text-[#0F172A]">
+            Bar chart bolgoh
+          </p>
+          <p>Jun 1 - Nov 30</p>
+        </div>
+        <div className="px-6 py-5 flex flex-col w-[400px] h-[400px] gap-4">
+          <Doughnut data={data} options={options} />
+        </div>
+      </div>
+      {/* <div className="rounded-xl flex flex-col w-[640px] h-[416px] bg-white">
         <div className="flex gap-[8px] items-center px-6 py-4">
           <p className="tex-[16px] leading-[24px] font-[600] text-[#0F172A]">
-            Income-Expense
+            Bar chart hiih
           </p>
         </div>
         <div className="px-6 py-5 flex flex-col gap-4">
           <div className="flex flex-col gap-1">Grapch</div>
         </div>
-      </div>
-      <div className="rounded-xl flex flex-col w-[640px] h-[416px] bg-white">
+      </div> */}
+      <div className="rounded-xl flex flex-col w-[740px] h-[466px] bg-white">
         <div className="flex gap-[8px] items-center px-6 py-4">
           <p className="text-[16px] leading-[24px] font-[600] text-[#0F172A]">
             Income-Expense

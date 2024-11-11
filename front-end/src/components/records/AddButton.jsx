@@ -13,7 +13,7 @@ export const AddButton = ({}) => {
   const [categoryId, setCategoryId] = useState();
   const [postRecord, setPostRecord] = useState({});
 
-  const ChangeBgColor = () => {
+  const ChangeBgColor = (value) => {
     setIsClicked(!isClicked);
     setIsColor(!isColor);
     setTransaction(value);
@@ -39,6 +39,8 @@ export const AddButton = ({}) => {
       category_id: categoryId,
     };
 
+    console.log(postRequest);
+
     const options = {
       method: "POST",
       headers: {
@@ -49,7 +51,7 @@ export const AddButton = ({}) => {
     };
     const response = await fetch(`${BACKEND_ENDPOINT}/record`, options);
     const data = await response.json();
-    document.getElementById("my_modal_3").close();
+    document.getElementById("add_button").close();
   };
 
   const selectCategory = (event) => {
@@ -59,6 +61,7 @@ export const AddButton = ({}) => {
   const handleInputValue = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+
     setPostRecord((prevRecord) => {
       return { ...prevRecord, [name]: value };
     });
@@ -72,12 +75,12 @@ export const AddButton = ({}) => {
     <div>
       <button
         className="h-8 w-full bg-[#0166FF] flex items-center justify-center rounded-[20px] gap-1"
-        onClick={() => document.getElementById("my_modal_3").showModal()}
+        onClick={() => document.getElementById("add_button").showModal()}
       >
         <WhitePlusIcon />
         <p className="text-[14px] leading-4 font-[400] text-[white] ">Add</p>
       </button>
-      <dialog id="my_modal_3" className="modal">
+      <dialog id="add_button" className="modal">
         <div className="bg-white rounded-xl p-0 w-[792px]">
           <div className="w-[792px] flex items-center justify-between h-[50px] border-b border-b-[#E2E8F0] py-[24px] px-[30px]">
             <h3 className="text-[20px] leading-7 font-[600]">Add record</h3>
@@ -123,8 +126,8 @@ export const AddButton = ({}) => {
                   <p className="text-[16px] font-[400] leading-6">Amount</p>
                   <input
                     onChange={handleInputValue}
-                    placeholder="₮ 0000"
-                    type="amount"
+                    placeholder="00.00"
+                    name="amount"
                     className="bg-[#F3F4F6]"
                   />
                 </div>
@@ -150,8 +153,8 @@ export const AddButton = ({}) => {
                   <div className="flex flex-col gap-1 w-[168px]">
                     <p className="text-[16px] font-[400] leading-6">Date</p>
                     <input
-                      // onChange={handleInputValue}
-                      // name="date"
+                      onChange={handleInputValue}
+                      name="date"
                       className="bg-[#F3F4F6] rounded-[8px] border border-[#D1D5DB] p-[8px]"
                       type="date"
                     />
@@ -159,8 +162,8 @@ export const AddButton = ({}) => {
                   <div className="flex flex-col gap-1 w-[168px]">
                     <p className="text-[16px] font-[400] leading-6">Time</p>
                     <input
-                      // onChange={handleInputValue}
-                      // name="time"
+                      onChange={handleInputValue}
+                      name="time"
                       className="bg-[#F3F4F6] rounded-[8px] border border-[#D1D5DB] p-[8px]"
                       type="time"
                     />
@@ -191,7 +194,7 @@ export const AddButton = ({}) => {
                 <p className="text-[16px] font-[400] leading-6">Note</p>
                 <textarea
                   onChange={handleInputValue}
-                  name="desription"
+                  name="description"
                   type="text"
                   placeholder="Write here"
                   className="w-full h-[280px] input input-bordered bg-[#F3F4F6] pt-[10px]"

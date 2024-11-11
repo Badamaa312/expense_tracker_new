@@ -8,6 +8,35 @@ import { AddCategory, Category } from "./AddCategory";
 import { useEffect, useState } from "react";
 import { BACKEND_ENDPOINT } from "../constant/constant";
 import { NoEye } from "../svg/NoEye";
+import { HomeIcon } from "../svg/Home";
+import { TwoIcon } from "../svg/icons/2";
+import { ThreeIcon } from "../svg/icons/3";
+import { FourIcon } from "../svg/icons/4";
+import { FiveIcon } from "../svg/icons/5";
+import { SixIcon } from "../svg/icons/6";
+import { SevenIcon } from "../svg/icons/7";
+import { EigthIcon } from "../svg/icons/8";
+import { NineIcon } from "../svg/icons/9";
+import { TenthIcon } from "../svg/icons/10";
+import { EleventhIcon } from "../svg/icons/11";
+import { TwelweIcon } from "../svg/icons/12";
+import { ThirteenIcon } from "../svg/icons/13";
+import { FourteenIcon } from "../svg/icons/14";
+import { SixteenIcon } from "../svg/icons/16";
+import { SeventeenIcon } from "../svg/icons/17";
+import { EighteenIcon } from "../svg/icons/18";
+import { NineteenIcon } from "../svg/icons/19";
+import { TwentyOneIcon } from "../svg/icons/21";
+import { TwentyTwoIcon } from "../svg/icons/22";
+import { TwentyThreeIcon } from "../svg/icons/23";
+import { TwentyFourIcon } from "../svg/icons/24";
+import { TwentyFiveIcon } from "../svg/icons/25";
+import { TwentySixIcon } from "../svg/icons/26";
+import { TwentySevenIcon } from "../svg/icons/27";
+import { TwentyEightIcon } from "../svg/icons/28";
+import { TwentyNineIcon } from "../svg/icons/29";
+import { ThirtyIcon } from "../svg/icons/30";
+import { FifteenIcon } from "../svg/icons/15";
 
 const Records = () => {
   const [categories, setCategory] = useState([]);
@@ -24,6 +53,39 @@ const Records = () => {
       (category) => category?.name === clickedCategoryName
     );
   }
+
+  const icons = {
+    HomeIcon: <HomeIcon />,
+    SecondIcon: <TwoIcon />,
+    ThirdIcon: <ThreeIcon />,
+    FourthIcon: <FourIcon />,
+    FifthIcon: <FiveIcon />,
+    Sixthcon: <SixIcon />,
+    SeventhIcon: <SevenIcon />,
+    EightIcon: <EigthIcon />,
+    NinethIcon: <NineIcon />,
+    TenthIcon: <TenthIcon />,
+    EleventhIcon: <EleventhIcon />,
+    TwelfthIcon: <TwelweIcon />,
+    ThirteenthIcon: <ThirteenIcon />,
+    Fourteenth: <FourteenIcon />,
+    FifteenthIcon: <FifteenIcon />,
+    SixteenthIcon: <SixteenIcon />,
+    SeventeenthIcon: <SeventeenIcon />,
+    EighteenthIcon: <EighteenIcon />,
+    NineteenthIcon: <NineteenIcon />,
+    TwentiethIcon: <TwelweIcon />,
+    TwentyFirstIcon: <TwentyOneIcon />,
+    TwentySecondIcon: <TwentyTwoIcon />,
+    TwentyThirdIcon: <TwentyThreeIcon />,
+    TwentyFourthIcon: <TwentyFourIcon />,
+    TwentyFifthIcon: <TwentyFiveIcon />,
+    TwentySixthIcon: <TwentySixIcon />,
+    TwentySeventhIcon: <TwentySevenIcon />,
+    TwentyEighticon: <TwentyEightIcon />,
+    TwentyNinethIcon: <TwentyNineIcon />,
+    ThirtiethIcon: <ThirtyIcon />,
+  };
 
   const fetchCategories = async () => {
     try {
@@ -179,10 +241,9 @@ const Records = () => {
                           className="rounded-full w-10 h-10 flex justify-center items-center"
                           style={{
                             backgroundColor: category.icon_color,
-                            // backgroundImage: category.category_icon,
                           }}
                         >
-                          {category?.category_icon}
+                          {icons[category?.category_icon]}
                         </div>
                         <div className="flex flex-col gap-4 justify-center items-center">
                           <p className="text-[16px] font-[400] leading-6">

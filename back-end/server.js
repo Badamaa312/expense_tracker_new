@@ -115,6 +115,7 @@ app.get("/record", async (request, response) => {
 app.post("/record", async (request, response) => {
   const { user_id, name, amount, transaction_type, description, categoryId } =
     request.body;
+  console.log(request.body);
 
   try {
     const newRecord =
