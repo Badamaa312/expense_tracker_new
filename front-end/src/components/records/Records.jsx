@@ -8,84 +8,14 @@ import { AddCategory, Category } from "./AddCategory";
 import { useEffect, useState } from "react";
 import { BACKEND_ENDPOINT } from "../constant/constant";
 import { NoEye } from "../svg/NoEye";
-import { HomeIcon } from "../svg/Home";
-import { TwoIcon } from "../svg/icons/2";
-import { ThreeIcon } from "../svg/icons/3";
-import { FourIcon } from "../svg/icons/4";
-import { FiveIcon } from "../svg/icons/5";
-import { SixIcon } from "../svg/icons/6";
-import { SevenIcon } from "../svg/icons/7";
-import { EigthIcon } from "../svg/icons/8";
-import { NineIcon } from "../svg/icons/9";
-import { TenthIcon } from "../svg/icons/10";
-import { EleventhIcon } from "../svg/icons/11";
-import { TwelweIcon } from "../svg/icons/12";
-import { ThirteenIcon } from "../svg/icons/13";
-import { FourteenIcon } from "../svg/icons/14";
-import { SixteenIcon } from "../svg/icons/16";
-import { SeventeenIcon } from "../svg/icons/17";
-import { EighteenIcon } from "../svg/icons/18";
-import { NineteenIcon } from "../svg/icons/19";
-import { TwentyOneIcon } from "../svg/icons/21";
-import { TwentyTwoIcon } from "../svg/icons/22";
-import { TwentyThreeIcon } from "../svg/icons/23";
-import { TwentyFourIcon } from "../svg/icons/24";
-import { TwentyFiveIcon } from "../svg/icons/25";
-import { TwentySixIcon } from "../svg/icons/26";
-import { TwentySevenIcon } from "../svg/icons/27";
-import { TwentyEightIcon } from "../svg/icons/28";
-import { TwentyNineIcon } from "../svg/icons/29";
-import { ThirtyIcon } from "../svg/icons/30";
-import { FifteenIcon } from "../svg/icons/15";
+import { Record } from "./Record";
 
 const Records = () => {
   const [categories, setCategory] = useState([]);
   const [clickedCategoryName, setClickedCategoryName] = useState("");
   const [isClicked, setIsClicked] = useState(true);
   const [records, setRecords] = useState([]);
-  const [transactionType, setTransactionType] = useState("ALL");
-
-  let filteredRecords = [];
-  if (!clickedCategoryName) {
-    filteredRecords = records;
-  } else {
-    filteredRecords = records?.filter(
-      (record) => record?.name === clickedCategoryName
-    );
-  }
-
-  const icons = {
-    HomeIcon: <HomeIcon />,
-    SecondIcon: <TwoIcon />,
-    ThirdIcon: <ThreeIcon />,
-    FourthIcon: <FourIcon />,
-    FifthIcon: <FiveIcon />,
-    Sixthcon: <SixIcon />,
-    SeventhIcon: <SevenIcon />,
-    EightIcon: <EigthIcon />,
-    NinethIcon: <NineIcon />,
-    TenthIcon: <TenthIcon />,
-    EleventhIcon: <EleventhIcon />,
-    TwelfthIcon: <TwelweIcon />,
-    ThirteenthIcon: <ThirteenIcon />,
-    Fourteenth: <FourteenIcon />,
-    FifteenthIcon: <FifteenIcon />,
-    SixteenthIcon: <SixteenIcon />,
-    SeventeenthIcon: <SeventeenIcon />,
-    EighteenthIcon: <EighteenIcon />,
-    NineteenthIcon: <NineteenIcon />,
-    TwentiethIcon: <TwelweIcon />,
-    TwentyFirstIcon: <TwentyOneIcon />,
-    TwentySecondIcon: <TwentyTwoIcon />,
-    TwentyThirdIcon: <TwentyThreeIcon />,
-    TwentyFourthIcon: <TwentyFourIcon />,
-    TwentyFifthIcon: <TwentyFiveIcon />,
-    TwentySixthIcon: <TwentySixIcon />,
-    TwentySeventhIcon: <TwentySevenIcon />,
-    TwentyEighticon: <TwentyEightIcon />,
-    TwentyNinethIcon: <TwentyNineIcon />,
-    ThirtiethIcon: <ThirtyIcon />,
-  };
+  const [filteredRecords, setFilteredRecords] = useState([]);
 
   const fetchCategories = async () => {
     try {
@@ -94,7 +24,7 @@ const Records = () => {
       setCategory(data?.data);
       console.log(data.data);
     } catch (error) {
-      console.log("Category error", error);
+      console.log("Category fetch error", error);
     }
   };
 
@@ -103,27 +33,29 @@ const Records = () => {
       const response = await fetch(`${BACKEND_ENDPOINT}/record`);
       const data = await response.json();
       setRecords(data?.data);
+      setFilteredRecords(data?.data);
       console.log(data.data);
     } catch (error) {
-      console.log("Category error", error);
+      console.log("Category fetch error", error);
     }
   };
 
-  // const fetchRecords = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${BACKEND_ENDPOINT}/transaction?transactionType=${transactionType}`
-  //     );
-  //     const data = await response.json();
-  //     setRecords(data.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const transactType = (value) => {
-    setTransactionType(value);
+  const filterRecords = (transactionType) => {
+    if (transactionType === "ALL") {
+      setFilteredRecords(records);
+    } else {
+      const updateRecord = records.filter(
+        (currentType) => currentType.transaction_type === transactionType
+      );
+      setFilteredRecords(updateRecord);
+    }
   };
+
+  const handleAddButton = () => {
+    fetchCategories();
+    fetchRecords();
+  };
+
   const handleIcon = (name) => {
     setClickedCategoryName(name, !isClicked);
   };
@@ -135,7 +67,7 @@ const Records = () => {
   useEffect(() => {
     fetchCategories();
     fetchRecords();
-  }, [transactionType]);
+  }, []);
 
   return (
     <main className="w-full flex justify-center mt-10">
@@ -145,7 +77,7 @@ const Records = () => {
             <p className="text-[24px] leading-[24px] font-[600] text-[#0F172A]">
               Records
             </p>
-            <AddButton />
+            <AddButton onAddRecord={handleAddButton} />
             <input
               type="text"
               placeholder="Search"
@@ -156,7 +88,7 @@ const Records = () => {
               <div className="flex flex-col gap-1 ml-[20px]">
                 <div className="flex gap-[15px] items-center">
                   <input
-                    onClick={() => transactType("All")}
+                    onClick={() => filterRecords("ALL")}
                     type="radio"
                     name="radio-1"
                     className="radio w-[15px] h-[15px]"
@@ -166,7 +98,7 @@ const Records = () => {
                 </div>
                 <div className="flex gap-[15px] items-center">
                   <input
-                    onClick={() => transactType("INC")}
+                    onClick={() => filterRecords("INC")}
                     type="radio"
                     name="radio-1"
                     className="radio w-[15px] h-[15px]"
@@ -175,7 +107,7 @@ const Records = () => {
                 </div>
                 <div className="flex gap-[15px] items-center">
                   <input
-                    onClick={() => transactType("EXP")}
+                    onClick={() => filterRecords("EXP")}
                     type="radio"
                     name="radio-1"
                     className="radio w-[15px] h-[15px]"
@@ -218,7 +150,7 @@ const Records = () => {
               </div>
             </div>
             <div>
-              <AddCategory />
+              <AddCategory onAddCategory={handleAddButton} />
             </div>
           </div>
         </div>
@@ -247,34 +179,11 @@ const Records = () => {
                       key={index}
                       className="flex items-center justify-between px-6 py-4 bg-white rounded-[12px]"
                     >
-                      <div className="flex gap-4">
-                        <div
-                          className="rounded-full w-10 h-10 flex justify-center items-center"
-                          style={{
-                            backgroundColor: record.icon_color,
-                          }}
-                        >
-                          {icons[record?.category_icon]}
-                        </div>
-                        <div className="flex flex-col gap-4 justify-center items-center">
-                          <p className="text-[16px] font-[400] leading-6">
-                            {record?.name}
-                          </p>
-                          <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                            {record?.date}
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        className={`flex items-center gap-2 ${
-                          record?.transaction_type == "INC"
-                            ? "text-[#84CC16]"
-                            : "text-[red]"
-                        }  text-[16px] font-[600] leading-6`}
-                      >
-                        <p>{record.transaction_type == "INC" ? "+" : "-"}</p>
-                        <p className="number">{record?.amount}₮</p>
-                      </div>
+                      <Record
+                        record={record}
+                        categories={categories}
+                        setCategory={setCategory}
+                      />
                     </div>
                   );
                 })}

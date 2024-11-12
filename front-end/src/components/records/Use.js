@@ -11,6 +11,44 @@ const fetchCategories = async () => {
   }
 };
 
+// {filteredRecords?.map((record) => {
+//   return (
+//     <div
+//       key={record.id}
+//       className="flex items-center justify-between px-6 py-4 bg-white rounded-[12px]"
+//     >
+//       <div className="flex gap-4">
+//         <div
+//           className="rounded-full w-10 h-10 flex justify-center items-center"
+//           style={{
+//             backgroundColor: record.icon_color,
+//           }}
+//         >
+//           {icons[record?.category_icon]}
+//         </div>
+//         <div className="flex flex-col gap-4 justify-center items-center">
+//           <p className="text-[16px] font-[400] leading-6">
+//             {record?.name}
+//           </p>
+//           <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
+//             {record?.date}
+//           </p>
+//         </div>
+//       </div>
+//       <div
+//         className={`flex items-center gap-2 ${
+//           record?.transaction_type == "INC"
+//             ? "text-[#84CC16]"
+//             : "text-[red]"
+//         }  text-[16px] font-[600] leading-6`}
+//       >
+//         <p>{record.transaction_type == "INC" ? "+" : "-"}</p>
+//         <p className="number">{record?.amount}₮</p>
+//       </div>
+//     </div>
+//   );
+// })}
+
 // const router = useRouter();
 
 // const formik = useFormik({
