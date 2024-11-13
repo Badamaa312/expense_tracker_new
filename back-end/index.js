@@ -113,14 +113,22 @@ app.get("/record", async (request, response) => {
 });
 
 app.post("/record", async (request, response) => {
-  const { user_id, name, amount, transaction_type, description, categoryId } =
-    request.body;
+  const {
+    user_id,
+    name,
+    amount,
+    transaction_type,
+    description,
+    categoryId,
+    date,
+    time,
+  } = request.body;
   console.log(request.body);
 
   try {
     const newRecord =
-      await sql`INSERT INTO records (user_id, name, amount, transaction_type, description, category_id )
-  VALUES( ${user_id}, ${name}, ${amount}, ${transaction_type},${description} ,${categoryId})
+      await sql`INSERT INTO records (user_id, name, amount, transaction_type, description, category_id,date,time  )
+  VALUES( ${user_id}, ${name}, ${amount}, ${transaction_type},${description} ,${categoryId},${date},${time})
   RETURNING *`;
 
     response.json({
@@ -134,20 +142,19 @@ app.post("/record", async (request, response) => {
 
 app.get("/transaction", async (request, response) => {
   const { transactionType } = request.query;
-  console.log(transactionType);
   try {
     let allRecords = [];
     if (transactionType == "ALL") {
       allRecords =
-        await sql`SELECT record.amount, record.transaction_type,category.icon_color, category.name, category.category_icon
+        await sql`SELECT record.amount, record.time, record.date, record.transaction_type, record.description, category.icon_color, category.name, category.category_icon
       FROM categories
-      JOIN records ON record.category_id=category.id ;`;
+      JOIN records ON record.category_id=category.id ORDER BY record.date DESC;`;
     } else {
       allRecords =
-        await sql`SELECT record.amount,  record.transaction_type,  category.icon_color, category.name, category.category_icon
+        await sql`SELECT record.amount, record.time, record.date, record.transaction_type, record.description, category.icon_color, category.name, category.category_icon
       FROM categories
       JOIN records ON record.category_id=category.id
-      WHERE transaction_type=${transactionType} ;`;
+      WHERE transaction_type=${transactionType} ORDER BY record.date DESC;`;
     }
     console.log(allRecords);
     response.status(200).json({

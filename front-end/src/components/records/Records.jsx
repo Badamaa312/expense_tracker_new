@@ -22,7 +22,7 @@ const Records = () => {
       const response = await fetch(`${BACKEND_ENDPOINT}/category`);
       const data = await response.json();
       setCategory(data?.data);
-      console.log(data.data);
+      // console.log(data.data);
     } catch (error) {
       console.log("Category fetch error", error);
     }
@@ -175,10 +175,7 @@ const Records = () => {
                 <h1 className="text-[16px] font-[600] leading-6 ">Today</h1>
                 {filteredRecords?.map((record, index) => {
                   return (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between px-6 py-4 bg-white rounded-[12px]"
-                    >
+                    <div key={index}>
                       <Record
                         record={record}
                         categories={categories}

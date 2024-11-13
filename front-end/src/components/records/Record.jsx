@@ -63,32 +63,26 @@ export const Record = ({ record, categories, setCategory }) => {
   };
 
   return (
-    <div className="flex items-center justify-between px-6 py-4 bg-white rounded-[12px">
+    <div className="">
       {categories.map((category, index) => {
         if (category.id === record.category_id)
           return (
-            <div
-              key={index}
-              className="flex items-center justify-between px-6 py-4 bg-white rounded-[12px]"
-            >
-              <div className="flex gap-4">
-                <div
-                  className="rounded-full w-10 h-10 flex justify-center items-center"
-                  style={{
-                    backgroundColor: category.icon_color,
-                  }}
-                >
-                  {icons[category?.category_icon]}
-                </div>
-                <div className="flex flex-col gap-4 justify-center items-center">
-                  <p className="text-[16px] font-[400] leading-6">
-                    {record?.name}
-                  </p>
-                  <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
-                    {record?.date}
-                  </p>
-                </div>
+            <div key={index} className="flex items-center justify-between">
+              <div
+                className="rounded-full w-10 h-10 flex justify-center items-center"
+                style={{
+                  backgroundColor: category.icon_color,
+                }}
+              >
+                {icons[category?.category_icon]}
               </div>
+              <p className="text-[16px] font-[400] leading-6">{record?.name}</p>
+              <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
+                {record?.date}
+              </p>
+              <p className="text-[12px] font-[400] leading-4 text-[#6B7280]">
+                {record?.time}
+              </p>
               <div
                 className={`flex items-center justify-end gap-2 ${
                   record?.transaction_type == "INC"
