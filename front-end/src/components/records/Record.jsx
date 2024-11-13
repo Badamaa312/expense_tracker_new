@@ -75,10 +75,10 @@ export const Record = ({ record, categories, setCategory }) => {
                 <div
                   className="rounded-full w-10 h-10 flex justify-center items-center"
                   style={{
-                    backgroundColor: record.icon_color,
+                    backgroundColor: category.icon_color,
                   }}
                 >
-                  {icons[record?.category_icon]}
+                  {icons[category?.category_icon]}
                 </div>
                 <div className="flex flex-col gap-4 justify-center items-center">
                   <p className="text-[16px] font-[400] leading-6">
@@ -96,8 +96,10 @@ export const Record = ({ record, categories, setCategory }) => {
                     : "text-[red]"
                 }  text-[16px] font-[600] leading-6`}
               >
-                <p>{record.transaction_type == "INC" ? "+" : "-"}</p>
-                <p className="number">{record?.amount}₮</p>
+                <p className="flex justify-end">
+                  {record.transaction_type == "INC" ? "+" : "-"}
+                </p>
+                <p className="flex justify-end number">{record?.amount}₮</p>
               </div>
             </div>
           );
